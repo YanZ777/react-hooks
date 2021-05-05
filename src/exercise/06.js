@@ -31,8 +31,14 @@ class ErrorBoundary extends React.Component
 }
 */
 
-function ErrorComponent() {
-   return <h1>Something went wrong.</h1>
+function ErrorComponent({error, resetErrorBoundary}) {
+   return (
+      <div role="alert">
+         <p>Something went wrong:</p>
+         <pre>{error.message}</pre>
+         <button onClick={resetErrorBoundary}>Try again</button>
+      </div>
+   );
 }
 
 function PokemonInfo({pokemonName}) {
@@ -95,7 +101,7 @@ function App() {
          <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
          <hr />
          <div className="pokemon-info">
-       <ErrorBoundary key={pokemonName} FallbackComponent={ErrorComponent}>
+       <ErrorBoundary FallbackComponent={ErrorComponent} onReset={()=>{setPokemonName('')}}>
          <PokemonInfo pokemonName={pokemonName} />
        </ErrorBoundary>
          </div>
