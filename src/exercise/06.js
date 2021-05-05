@@ -20,10 +20,6 @@ class ErrorBoundary extends React.Component
       return { hasError: true }
    }
 
-   componentDidCatch(error, errorInfo) {
-      //
-   }
-
    render() {
       if (this.state.hasError) {
          return <h1>Something went wrong.</h1>;
@@ -71,7 +67,7 @@ function PokemonInfo({pokemonName}) {
             There was an error: <pre style={{whiteSpace: 'normal'}}>{state.error}</pre>
          </div>);
          */
-        throw error;
+        throw state.error;
    } else if (state.status === 'resolved') {
       return <PokemonDataView pokemon={state.pokemon} />
    } else if (state.status === 'pending') {
@@ -93,7 +89,7 @@ function App() {
          <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
          <hr />
          <div className="pokemon-info">
-       <ErrorBoundary>
+       <ErrorBoundary key={pokemonName}>
          <PokemonInfo pokemonName={pokemonName} />
        </ErrorBoundary>
          </div>
